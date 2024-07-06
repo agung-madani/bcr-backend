@@ -1,15 +1,12 @@
-# Define the Koyeb app version
-version: v1
-
 name: CI/CD Pipeline with Koyeb
 
 on:
   push:
     branches:
-      - development
+      - main
   pull_request:
     branches:
-      - development
+      - main
 
 # Define the jobs to build and push your Docker image
 jobs:
@@ -45,9 +42,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build
-
       - name: Deploy to Koyeb
         env:
           KOYEB_API_KEY: ${{ secrets.KOYEB_API_KEY }}
@@ -59,6 +53,6 @@ jobs:
               "name": "bcr-backend",
               "git": {
                 "repo": "https://github.com/agung-madani/bcr-backend.git",
-                "branch": "development"
+                "branch": "main"
               },
             }'

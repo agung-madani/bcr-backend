@@ -1,4 +1,4 @@
-# -------- Development Build Stage --------
+# -------- Build Stage --------
     FROM node:20 AS builder
 
     WORKDIR /app
@@ -7,7 +7,7 @@
     COPY package*.json tsconfig.json ./
     RUN npm install
     
-    # Copy all source files
+    # Copy source files and the .env file
     COPY . .
     
     # Build TypeScript to JS
@@ -25,7 +25,10 @@
     # Copy built files from previous stage
     COPY --from=builder /app/dist ./dist
     
-    # Expose your app's port
+    # Copy .env file from the build stage
+    COPY --from=builder /app/.env ./
+    
+    # Expose the port the app listens on
     EXPOSE 3030
     
     # Run the compiled JS file (not the .ts file)
